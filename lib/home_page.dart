@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_interpolation_to_compose_strings, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_interpolation_to_compose_strings, prefer_const_literals_to_create_immutables, sort_child_properties_last
 
 import 'package:flutter/material.dart';
 
@@ -190,10 +190,20 @@ class _HomePageState extends State<HomePage> {
 
   void _showWin(String W) {
     showDialog(
+        barrierDismissible: false,
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text('WINNER IS: ' + W),
+            actions: [
+              TextButton(
+                child: const Text('Play Again'),
+                onPressed: () {
+                  _clearBoardWin();
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
           );
         });
 
@@ -202,5 +212,13 @@ class _HomePageState extends State<HomePage> {
     } else if (W == 'X') {
       xScore += 1;
     }
+  }
+
+  void _clearBoardWin() {
+    setState(() {
+      for (var i = 0; i < 9; i++) {
+        display[i] = '';
+      }
+    });
   }
 }
