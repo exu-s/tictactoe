@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_interpolation_to_compose_strings
+// ignore_for_file: prefer_interpolation_to_compose_strings, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
 
@@ -24,39 +24,97 @@ class _HomePageState extends State<HomePage> {
     '',
   ];
 
+  var myTextStyl = const TextStyle(color: Colors.white, fontSize: 30);
+
+  int oScore = 0;
+  int xScore = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.red,
-      body: GridView.builder(
-          itemCount: 9,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3),
-          itemBuilder: (BuildContext context, int index) {
-            return GestureDetector(
-              onTap: () {
-                _tapped(index);
-              },
-              child: Container(
-                decoration:
-                    BoxDecoration(border: Border.all(color: Colors.grey)),
-                child: Center(
-                  child: Text(
-                    display[index],
-                    style: const TextStyle(color: Colors.white, fontSize: 35),
-                  ),
+      body: Column(
+        children: [
+          Expanded(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Player O',
+                      style: myTextStyl,
+                    ),
+                    Text(
+                      oScore.toString(),
+                    ),
+                  ],
                 ),
-              ),
-            );
-          }),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Player X',
+                      style: myTextStyl,
+                    ),
+                    Text(
+                      xScore.toString(),
+                    ),
+                  ],
+                )
+              ],
+            ),
+          ),
+          Expanded(
+            flex: 3,
+            child: GridView.builder(
+              itemCount: 9,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3),
+              itemBuilder: (BuildContext context, int index) {
+                return GestureDetector(
+                  onTap: () {
+                    _tapped(index);
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.green,
+                      ),
+                    ),
+                    child: Center(
+                      child: display[index] == 'X'
+                          ? Text(
+                              display[index],
+                              style: const TextStyle(
+                                  color: Colors.white, fontSize: 35),
+                            )
+                          : Text(
+                              display[index],
+                              style: const TextStyle(
+                                  color: Colors.black, fontSize: 35),
+                            ),
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+          Expanded(
+              child: Container(
+            color: Colors.blue,
+          ))
+        ],
+      ),
     );
   }
 
   void _tapped(int index) {
     setState(() {
-      if (oTurn) {
+      if (oTurn && display[index] == '' || display[index] == 'O') {
         display[index] = 'O';
-      } else {
+      } else if (!oTurn && display[index] == '' || display[index] == 'X') {
         display[index] = 'X';
       }
 
@@ -138,5 +196,11 @@ class _HomePageState extends State<HomePage> {
             title: Text('WINNER IS: ' + W),
           );
         });
+
+    if (W == 'O') {
+      oScore += 1;
+    } else if (W == 'X') {
+      xScore += 1;
+    }
   }
 }
