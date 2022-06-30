@@ -28,6 +28,7 @@ class _HomePageState extends State<HomePage> {
 
   int oScore = 0;
   int xScore = 0;
+  int filledBoxes = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +49,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                     Text(
                       oScore.toString(),
+                      style: myTextStyl,
                     ),
                   ],
                 ),
@@ -60,6 +62,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                     Text(
                       xScore.toString(),
+                      style: myTextStyl,
                     ),
                   ],
                 )
@@ -114,8 +117,10 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       if (oTurn && display[index] == '' || display[index] == 'O') {
         display[index] = 'O';
+        filledBoxes += 1;
       } else if (!oTurn && display[index] == '' || display[index] == 'X') {
         display[index] = 'X';
+        filledBoxes += 1;
       }
 
       oTurn = !oTurn;
@@ -185,6 +190,8 @@ class _HomePageState extends State<HomePage> {
         display[2] == display[6] &&
         display[2] != '') {
       _showWin(display[2]);
+    } else if (filledBoxes == 9) {
+      _showDraw();
     }
   }
 
@@ -214,11 +221,35 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  void _showDraw() {
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('DRAW'),
+            actions: [
+              TextButton(
+                child: const Text('Play Again'),
+                onPressed: () {
+                  _clearBoardWin();
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          );
+        });
+  }
+
   void _clearBoardWin() {
-    setState(() {
-      for (var i = 0; i < 9; i++) {
-        display[i] = '';
-      }
-    });
+    setState(
+      () {
+        for (var i = 0; i < 9; i++) {
+          display[i] = '';
+        }
+      },
+    );
+
+    filledBoxes = 0;
   }
 }
