@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_interpolation_to_compose_strings, prefer_const_literals_to_create_immutables, sort_child_properties_last
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
@@ -43,26 +45,58 @@ class _HomePageState extends State<HomePage> {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    const SizedBox(
+                      height: 50,
+                    ),
                     Text(
                       'Player O',
-                      style: myTextStyl,
+                      style: GoogleFonts.pressStart2p(
+                        textStyle: const TextStyle(
+                          color: Colors.white,
+                          letterSpacing: .5,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 15,
                     ),
                     Text(
                       oScore.toString(),
-                      style: myTextStyl,
+                      style: GoogleFonts.pressStart2p(
+                        textStyle: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 50,
+                        ),
+                      ),
                     ),
                   ],
                 ),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    const SizedBox(
+                      height: 50,
+                    ),
                     Text(
                       'Player X',
-                      style: myTextStyl,
+                      style: GoogleFonts.pressStart2p(
+                        textStyle: const TextStyle(
+                          color: Colors.white,
+                          letterSpacing: .5,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 15,
                     ),
                     Text(
                       xScore.toString(),
-                      style: myTextStyl,
+                      style: GoogleFonts.pressStart2p(
+                        textStyle: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 50,
+                        ),
+                      ),
                     ),
                   ],
                 )
@@ -71,42 +105,72 @@ class _HomePageState extends State<HomePage> {
           ),
           Expanded(
             flex: 3,
-            child: GridView.builder(
-              itemCount: 9,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3),
-              itemBuilder: (BuildContext context, int index) {
-                return GestureDetector(
-                  onTap: () {
-                    _tapped(index);
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.green,
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: GridView.builder(
+                itemCount: 9,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3),
+                itemBuilder: (BuildContext context, int index) {
+                  return GestureDetector(
+                    onTap: () {
+                      _tapped(index);
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.green,
+                        ),
+                      ),
+                      child: Center(
+                        child: display[index] == 'X'
+                            ? Text(
+                                display[index],
+                                style: const TextStyle(
+                                    color: Colors.white, fontSize: 35),
+                              )
+                            : Text(
+                                display[index],
+                                style: const TextStyle(
+                                    color: Colors.black, fontSize: 35),
+                              ),
                       ),
                     ),
-                    child: Center(
-                      child: display[index] == 'X'
-                          ? Text(
-                              display[index],
-                              style: const TextStyle(
-                                  color: Colors.white, fontSize: 35),
-                            )
-                          : Text(
-                              display[index],
-                              style: const TextStyle(
-                                  color: Colors.black, fontSize: 35),
-                            ),
-                    ),
-                  ),
-                );
-              },
+                  );
+                },
+              ),
             ),
           ),
+          const SizedBox(
+            height: 10,
+          ),
           Expanded(
-              child: Container(
-            color: Colors.blue,
+              child: Center(
+            child: Column(
+              children: [
+                Text(
+                  'TiC-TaC-ToE',
+                  style: GoogleFonts.pressStart2p(
+                    textStyle: const TextStyle(
+                      color: Colors.white,
+                      letterSpacing: .5,
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 25,
+                ),
+                Text(
+                  '@pwofesor',
+                  style: GoogleFonts.pressStart2p(
+                    textStyle: const TextStyle(
+                      color: Colors.white,
+                      letterSpacing: .5,
+                    ),
+                  ),
+                )
+              ],
+            ),
           ))
         ],
       ),
